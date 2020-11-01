@@ -3,18 +3,18 @@ package com.company;
 public class Main {
 //********************Biginteger class*****************************
     public class MyBigInteger{
-        string Value;
+        String Value;
         //constructor
-        MyBigInteger(string val){
+        MyBigInteger(String val){
             Value = val;
         }
         //returns a string representation of the integer
-        string Value(){
+        String Value(){
             return Value;
         }
         //returns first 5 and last 5 digits or up to all 11 digits
-        string AbbreviatedValue(){
-            string returnVal = " ";
+        String AbbreviatedValue(){
+            String returnVal = " ";
             if(Value.length() < 12){
                 return Value;
             }else{
@@ -25,13 +25,17 @@ public class Main {
         }
         //returns a new biginteger with value of this.value + x.value
         MyBigInteger Plus(MyBigInteger x){
-            MyBigInteger val;
+            MyBigInteger ret = new MyBigInteger(" ");
+            ret.Value = Integer.toString(Integer.parseInt(x.Value) +Integer.parseInt(Value));
 
-            return val;
+            return ret;
         }
         //returns a new biginteger with value of this.value * x.value
         MyBigInteger Times(MyBigInteger x){
+            MyBigInteger ret = new MyBigInteger(" ");
+            ret.Value = Integer.toString(Integer.parseInt(x.Value) * Integer.parseInt(Value));
 
+            return ret;
         }
 
 }
