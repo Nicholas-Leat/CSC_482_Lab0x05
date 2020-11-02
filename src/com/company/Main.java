@@ -98,7 +98,7 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
         //bigIntResults();
-        System.out.println(fibLoop(15));
+        fibResults();
         return;
     }
 //********************Results for Big integer**********************
@@ -192,13 +192,15 @@ public class Main {
         boolean flcon = true;
         boolean fmcon = true;
         double fldr[] = new double[10000];
-        double fledr;
+        double fledr = 0;
         double fmdr[] = new double[10000];
-        double fmedr;
-        int x = 1;
+        double fmedr = 0;
+        int x = 0;
+        int Xval = 1;
         double avg = 0;
         long N;
         int count = 0;
+        BigInteger num1 = BigInteger.ZERO;
         while(con){
             N = (int) Math.ceil(Math.log(2*(x+1)));
             //fib loop
@@ -215,7 +217,7 @@ public class Main {
                     flcon = false;
                 }
                 if(x > 2){
-                    fldr[count] = fibloopTime[count]/ fibloopTime[x/2];
+                    fldr[count] = fibloopTime[count]/ fibloopTime[x/10];
                     fledr = fldr[count -1] + fldr[count-2];
                 }
             }
@@ -223,7 +225,7 @@ public class Main {
             if(fmcon){
                 for(int i = 0; i < trialnum; i++){
                     before = getCpuTime();
-                    fibMatrix(x);
+                    num1 = fibMatrix(x);
                     after = getCpuTime();
                     avg += after - before;
                 }
@@ -232,15 +234,34 @@ public class Main {
                 if(fibmatrixTime[count] > mxTime){
                     fmcon = false;
                 }
+                fledr = 0;
                 if(x > 2){
-                    fmdr[count] = fibmatrixTime[count] / fibmatrixTime[x/2];
+                    fmdr[count] = fibmatrixTime[count] / fibmatrixTime[x/10];
                     fmedr = fmdr[count-1] + fmdr[count-2];
+                    //fledr = x/(x/10);
                 }
             }
             if(!fmcon && flcon){
                 con = false;
             }
-            System.out.printf("X = %d \t N = %d \t Fibloop time = %f \t Fibmatrix time = %f \t");
+            String First = num1.toString();
+            if(First.length() > Xval){
+                Xval++;
+            }
+            System.out.printf("X = %d \t N = %d \t Fibloop time = %f \t Fibmatrix time = %f \t", x, Xval, fibloopTime[count], fibmatrixTime[count]);
+
+            if(N > 1)
+                fmedr = Math.log((double)N)/Math.log((double)N-1);
+            if(First.length() >12) {
+                String last = First.substring(0, 5);
+                First = First.substring(First.length() - 5, First.length());
+                System.out.printf("Fib(x) = %s...%s \t 10x ratio = %f \t Tx expected 10x ratio = %f \t Tn expected +1 ration = %s\n",last, First, fldr[count],fmedr,0);
+            }else{
+                System.out.printf("Fib(x) = %s \t 10x ratio = %f \t Tx expected 10x ratio = %f \t Tn expected +1 ration = %s\n",First, fmdr[count],fmedr,0);
+            }
+            count++;
+            x++;
+
 
         }
     }
