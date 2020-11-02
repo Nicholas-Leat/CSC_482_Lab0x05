@@ -1,8 +1,11 @@
 package com.company;
+import java.math.BigInteger;
 
 public class Main {
+    static int trialnum = 100;
+    static int mxTime = 20000000;
 //********************Biginteger class*****************************
-    public class MyBigInteger{
+    public static class MyBigInteger{
         String Value;
         //constructor
         MyBigInteger(String val){
@@ -37,15 +40,48 @@ public class Main {
 
             return ret;
         }
-
 }
+//*****************************************************************
+//********************Fibonacci functions**************************
+    public static BigInteger fibRecur(BigInteger x){
+        BigInteger retval = new BigInteger(" ");
+        if(x <=1){
+            return x;
+        }else{
+            BigInteger temp = new BigInteger(" ");
+            BigInteger temp2 = new BigInteger(" ");
+
+
+        }
+
+
+    }
+    public static BigInteger fibCache(BigInteger x){
+
+    }
+    public static BigInteger fibCacheHelp(BigInteger x){
+
+    }
+    public static BigInteger fibLoop(BigInteger x){
+
+    }
+    public static BigInteger fibMatrix(BigInteger x){
+        BigInteger F[][] = new BigInteger[][]{{BigInteger.valueOf(1),BigInteger.valueOf(1)},{BigInteger.valueOf(1),BigInteger.valueOf(0)}};
+        if(x.equals(BigInteger.ZERO)){
+            return BigInteger.ZERO;
+        }
+    }
+    public static void power(BigInteger x, long y){
+
+    }
+    public static void multiply(BigInteger x, BigInteger y){
+
+    }
 //*****************************************************************
     public static void main(String[] args) {
 	// write your code here
-    }
-//********************Addition algorithm***************************
-    public static void addition(){
 
+        return;
     }
-//*****************************************************************
+
 }
