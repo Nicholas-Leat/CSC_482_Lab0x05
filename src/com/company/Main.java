@@ -48,46 +48,57 @@ public class Main {
 }
 //*****************************************************************
 //********************Fibonacci functions**************************
-    /**
-    public static BigInteger fibRecur(BigInteger x){
-        BigInteger retval = new BigInteger(" ");
-        if(x <=1){
-            return x;
-        }else{
-            BigInteger temp = new BigInteger(" ");
-            BigInteger temp2 = new BigInteger(" ");
 
-
-        }
-
-
-    }
-    public static BigInteger fibCache(BigInteger x){
-
-    }
-    public static BigInteger fibCacheHelp(BigInteger x){
-
-    }
-    public static BigInteger fibLoop(BigInteger x){
-
-    }
-    public static BigInteger fibMatrix(BigInteger x){
-        BigInteger F[][] = new BigInteger[][]{{BigInteger.valueOf(1),BigInteger.valueOf(1)},{BigInteger.valueOf(1),BigInteger.valueOf(0)}};
-        if(x.equals(BigInteger.ZERO)){
+    public static BigInteger fibLoop(int x){
+        BigInteger t1 = new BigInteger("0");
+        BigInteger t2 = new BigInteger("1");
+        BigInteger sum = new BigInteger("0");
+        t1.valueOf(0);
+        t2.valueOf(1);
+        if(x == 0){
             return BigInteger.ZERO;
         }
-    }
-    public static void power(BigInteger x, long y){
+
+        for(int i = 2; i <= x; i++){
+            sum = t1.add(t2);
+            t1 = t2;
+            t2 = sum;
+        }
+        return t2;
 
     }
-    public static void multiply(BigInteger x, BigInteger y){
+    public static BigInteger fibMatrix(int x){
+        BigInteger F[][] = new BigInteger[][]{{BigInteger.ONE,BigInteger.ONE},{BigInteger.ONE,BigInteger.ZERO}};
+        if(x == 0){
+            return BigInteger.ZERO;
+        }
+        power(F,x-1);
 
+        return F[0][0];
     }
-//*****************************************************************/
+    public static void power(BigInteger F[][], int x){
+        BigInteger M[][] = new BigInteger[][] {{BigInteger.ONE,BigInteger.ONE},{BigInteger.ONE,BigInteger.ZERO}};
+
+        for(int i = 2; i <= x; i++){
+            multiply(F,M);
+        }
+    }
+    public static void multiply(BigInteger F[][], BigInteger M[][]){
+        BigInteger a = (F[0][0].multiply(M[0][0])).add((F[0][1].multiply(M[1][0])));
+        BigInteger b = (F[0][0].multiply(M[0][1])).add((F[0][1].multiply(M[1][1])));
+        BigInteger c = (F[1][0].multiply(M[0][0])).add((F[1][1].multiply(M[1][0])));
+        BigInteger d = (F[1][0].multiply(M[0][1])).add((F[1][1].multiply(M[1][1])));
+
+        F[0][0] = a;
+        F[0][1] = b;
+        F[1][0] = c;
+        F[1][1] = d;
+    }
+//*****************************************************************
     public static void main(String[] args) {
 	// write your code here
-        bigIntResults();
-
+        //bigIntResults();
+        System.out.println(fibLoop(15));
         return;
     }
 //********************Results for Big integer**********************
@@ -170,6 +181,69 @@ public class Main {
 
 
     }
+//*****************************************************************
+
+//********************Results for Fib******************************
+    public static void fibResults(){
+        double before, after;
+        double fibloopTime[] = new double[10000];
+        double fibmatrixTime[] = new double[10000];
+        boolean con = true;
+        boolean flcon = true;
+        boolean fmcon = true;
+        double fldr[] = new double[10000];
+        double fledr;
+        double fmdr[] = new double[10000];
+        double fmedr;
+        int x = 1;
+        double avg = 0;
+        long N;
+        int count = 0;
+        while(con){
+            N = (int) Math.ceil(Math.log(2*(x+1)));
+            //fib loop
+            if(flcon){
+                for(int i = 0; i < trialnum; i++){
+                    before = getCpuTime();
+                    fibLoop(x);
+                    after = getCpuTime();
+                    avg+= after-before;
+                }
+                avg = avg/trialnum;
+                fibloopTime[count] = avg;
+                if(fibloopTime[count] > mxTime){
+                    flcon = false;
+                }
+                if(x > 2){
+                    fldr[count] = fibloopTime[count]/ fibloopTime[x/2];
+                    fledr = fldr[count -1] + fldr[count-2];
+                }
+            }
+            avg =0;
+            if(fmcon){
+                for(int i = 0; i < trialnum; i++){
+                    before = getCpuTime();
+                    fibMatrix(x);
+                    after = getCpuTime();
+                    avg += after - before;
+                }
+                avg = avg/trialnum;
+                fibmatrixTime[count] = avg;
+                if(fibmatrixTime[count] > mxTime){
+                    fmcon = false;
+                }
+                if(x > 2){
+                    fmdr[count] = fibmatrixTime[count] / fibmatrixTime[x/2];
+                    fmedr = fmdr[count-1] + fmdr[count-2];
+                }
+            }
+            if(!fmcon && flcon){
+                con = false;
+            }
+            System.out.printf("X = %d \t N = %d \t Fibloop time = %f \t Fibmatrix time = %f \t");
+
+        }
+    }
     public static long getCpuTime( ) {
 
         ThreadMXBean bean = ManagementFactory.getThreadMXBean( );
@@ -179,5 +253,6 @@ public class Main {
                 bean.getCurrentThreadCpuTime( ) : 0L;
 
     }
+
 
 }
